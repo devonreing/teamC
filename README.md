@@ -1,0 +1,1 @@
+This repo is the code base for team C consisting of Devon Reing, Michael Wood, Luke Mcginley, and Rani Son.
