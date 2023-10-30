@@ -1,39 +1,41 @@
-use roommate_project;
+-- Create the Users table
 CREATE TABLE Users (
-    UserID INT(6) PRIMARY KEY,
-    Username VARCHAR(255) NOT NULL,
-    PasswordHash VARCHAR(255) NOT NULL,
-    Email VARCHAR(255) NOT NULL,
-    FirstName VARCHAR(50),
-    LastName VARCHAR(50),
-    Description TEXT
+    UserID INT AUTO_INCREMENT PRIMARY KEY,
+    Username VARCHAR(255), -- You can adjust the data types as needed
+    Email VARCHAR(255)     -- You can adjust the data types as needed
 );
 
-CREATE TABLE RoommatePreferences (
-    PreferenceID INT(6) PRIMARY KEY,
-    UserID INT(6),
-    MinAge INT(110),
-    MaxAge INT(110),
-    GenderPreference ENUM('Male', 'Female', 'Any'),
-    SmokingPreference ENUM('Non-smoker', 'Smoker', 'No preference'),
-    PetPreference ENUM('No pets', 'Cats', 'Dogs', 'Other', 'No preference'),
-    FOREIGN KEY (UserID) REFERENCES Users (UserID)
+-- Create the Sleeping_Preferences table
+CREATE TABLE Sleeping_Preferences (
+    SleepID INT AUTO_INCREMENT PRIMARY KEY,
+    UserID INT,
+    SleepType VARCHAR(50),
+    Bedtime VARCHAR(50),
+    WakeTime VARCHAR(50),
+    SleepTemp INT, -- Assuming you store temperature as an integer
+    FOREIGN KEY (UserID) REFERENCES Users(UserID)
 );
 
-CREATE TABLE LikesDislikes (
-    LikeDislikeID INT (6) PRIMARY KEY,
-    UserID INT(6),
-    Likes TEXT, 
-    Dislike TEXT,
-    FOREIGN KEY (UserID) REFERENCES Users (UserID)
+-- Create the Living_Habits table
+CREATE TABLE Living_Habits (
+    HabitID INT AUTO_INCREMENT PRIMARY KEY,
+    UserID INT,
+    Budget DECIMAL(10, 2), -- Adjust the precision and scale as needed
+    Cleanliness VARCHAR(50),
+    AcceptPets VARCHAR(3), -- Use VARCHAR(3) to store "yes" or "no"
+    DayTemp INT,           -- Assuming you store temperature as an integer
+    QuietPreference VARCHAR(50),
+    AcceptSubstances VARCHAR(50),
+    CookingPlans VARCHAR(50),
+    SharingPreferences VARCHAR(255), -- You can adjust the data type as needed
+    GuestFrequency VARCHAR(50),
+    FOREIGN KEY (UserID) REFERENCES Users(UserID)
 );
 
-CREATE TABLE Matches (
-    MatchID INT (6) PRIMARY KEY,
-    User1ID INT (6),
-    User2ID INT (6),
-    MatchScore DECIMAL(5, 2),
-    FOREIGN KEY (User1ID) REFERENCES Users (UserID),
-    FOREIGN KEY (User2ID) REFERENCES Users (UserID)
+-- Create the Personality table
+CREATE TABLE Personality (
+    PersonalityID INT AUTO_INCREMENT PRIMARY KEY,
+    UserID INT,
+    IntroExtroAmbi VARCHAR(50),
+    FOREIGN KEY (UserID) REFERENCES Users(UserID)
 );
-
