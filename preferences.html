@@ -3,10 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>Preference Form</title>
+    <link rel="stylesheet" type="text/css" href="preferences.css"/>
 </head>
 <body>
+    <fieldset>
     <h2> Living Preferences </h2>
     <form action = "">
+        <h4> Student or General Use </h4>
+        <p>
+            Are you a college student currently?
+            <label>
+                <input type="radio" name="student" value="yes">
+                Yes
+            </label>
+            <label>
+                <input type="radio" name="student" value="no">
+                No
+            </label>
+        </p>
         <h4> Sleeping Preferences </h4>
         <p>
             Are you a light or heavy sleeper?
@@ -69,7 +83,7 @@
             What is your budget
             <label>
                 $
-                <input type="number" name="budget"/>
+                <input type="number" name="budget" if="student:yes"/>
             </label>
         </p>
         <p>
@@ -128,10 +142,6 @@
             <label>
                 <input type="checkbox" name="substances" value="smoking"/>
                 Smoking
-            </label>
-            <label>
-                <input type="checkbox" name="substances" value="weed"/>
-                Weed
             </label>
             <label>
                 <input type="checkbox" name="substances" value="none"/>
@@ -240,6 +250,9 @@
                 Extrovert
             </label>
         </p>
+        <a href="profile.html"><button> Back </button></a>
+        <input type="submit" value="Save"/>
     </form>
+    </fieldset>
 </body>
 </html>
