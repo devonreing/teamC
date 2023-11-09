@@ -17,15 +17,15 @@ body {
     height: 420px;
     padding: 20px;
     text-align: center;
-    border: 2px solid ; /* Add a border to the login form */
+    border: 2px solid ; 
     border-radius: 100px 100px 100px 100px;
-    margin: 200px 0 auto; /* Center the login box horizontally */
+    margin: 200px 0 auto; 
 }
 
 img {
-    max-width: 40%; /* Ensure the image doesn't exceed its container width */
+    max-width: 40%; 
     display: inline-block;
-    vertical-align: middle; /* Align the image vertically with the login box */
+    vertical-align: middle; 
     margin: -300px 5% 0 auto;
 }
 
