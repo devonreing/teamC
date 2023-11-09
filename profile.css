@@ -1,5 +1,5 @@
 body {
-  background-color: orange;
+  background-color: #eab676;
   width: 100%;
   height: 100vh;
   margin: 0;
@@ -10,7 +10,7 @@ body {
 
 #profile {
   width: 80%;
-  background-color: blue;
+  background-color: #76aaea;
   margin-left: auto;
   margin-right: auto;
   padding: 20px;
