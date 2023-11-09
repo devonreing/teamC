@@ -11,7 +11,7 @@ body {
 
 .login-form {
     display: inline-block;
-    background-color: #35459c;
+    background-color: #76aaea;
     color: white;
     width: 500px;
     height: 420px;
@@ -39,7 +39,7 @@ input[type="password"] {
 }
 
 #login-button {
-    background-color: #f3971f;
+    background-color: #eab676;
     width: 100px;
     margin: 20px 0;
     color: black;
@@ -64,7 +64,7 @@ input[type="password"] {
 }
 
 #create-profile-button {
-    background-color: #f3971f;
+    background-color: #eab676;
     width: 200px;
     margin: 20px 0;
     color: black;
