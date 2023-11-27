@@ -1,70 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Profile Page</title>
-    <link rel="stylesheet" type="text/css" href="profile.css" />
-  </head>
 
-  <body>
-    <form id="profile" action="preferences.html">
-      <h1>Create Your Profile!</h1>
-      <fieldset>
-        <label>
-          First Name
-          <input type="text" id="fname" placeholder="First Name" required />
-        </label>
-        <label>
-          Last Name
-          <input type="text" id="lname" placeholder="Last Name" required />
-        </label>
-        <label>
-          Email
-          <input
-            type="email"
-            id="email"
-            placeholder="Enter Your Email"
-            required
-          />
-          <label id="number-label"
-          >Age
-          <input
-            type="number"
-            id="number"
-            min="0"
-            max="100"
-            placeholder="0"
-          />
-        </label>
-        <label id="number-roommates"
-          >How many Roommates Are You Looking For?
-          <input
-            type="number"
-            id="roommate"
-            min="0"
-            max="100"
-            placeholder="0"
-          />
-        </label>
-        <label
-          >Which option best describes you?
-          <select id="dropdown">
-            <option value="">Select current role</option>
-            <option value="1">Freshman</option>
-            <option value="2">Sophomore</option>
-            <option value="3">Junior</option>
-            <option value="4">Senior</option>
-            <option value="5">Other</option>
-          </select>
-        </label>
-        <label>
-          Enter a Profile Picture Here
-          <input id="picture" type="file" name="upload" accept="image/*" />
-        </label>
-          <button>Submit</button>
-      </fieldset>
-    </form>
-  </body>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Profile Page</title>
+  <link rel="stylesheet" type="text/css" href="profile.css" />
+</head>
+
+<body>
+  <form id="profile" action="/profile" method="post">
+    <h1>Create Your Profile!</h1>
+    <fieldset>
+      <label>
+        Username
+        <input type="text" name="username" placeholder="Username" required />
+      </label>
+      <label>
+        Password
+        <input type="text" name="password" placeholder="Password" required />
+      </label>
+      <label>
+        First Name
+        <input type="text" name="first_name" placeholder="First Name" required />
+      </label>
+      <label>
+        Last Name
+        <input type="text" name="last_name" placeholder="Last Name" required />
+      </label>
+      <!-- Add other input fields with the 'name' attribute -->
+      <label>
+        Email
+        <input type="email" name="Email" placeholder="Enter Your Email" required />
+      </label>
+      <label id="number-label">Age
+        <input type="number" name="age" min="0" max="100" placeholder="0" />
+      </label>
+      <label id="number-roommates">How many Roommates Are You Looking For?
+        <input type="number" name="roommate_amount" min="0" max="100" placeholder="0" />
+      </label>
+      <label>Which option best describes you?
+        <select name="student_level">
+          <option value="">Select current role</option>
+          <option value="Freshman">Freshman</option>
+          <option value="Sophomore">Sophomore</option>
+          <option value="Junior">Junior</option>
+          <option value="Senior">Senior</option>
+          <option value="Other">Other</option>
+        </select>
+      </label>
+      <label>
+        Enter a Profile Picture Here
+        <input type="file" name="picture" accept="image/*" />
+      </label>
+      <button type="submit">Submit</button>
+    </fieldset>
+  </form>
+</body>
+
 </html>
-
