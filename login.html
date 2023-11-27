@@ -11,14 +11,17 @@
     <img src="draft_logo.jpg" alt="Logo" />
     <div class="login-form">
       <h2>Login</h2>
-      <form action="/login" method="post">
+      <form action="profilePage.html" method="post">
         <input type="text" name="username" placeholder="Username" required />
-        <input type="password" name="Password" placeholder="Password" required />
+        <input type="password" name="password" placeholder="Password" required />
         <button type="submit" id="login-button">Login</button>
       </form>
       <h3>Don't have an account yet?</h3>
-      <!-- Updated Create Account button to directly link to profile.html -->
-      <a href="/profile" id="create-profile-button">Create one here!</a>
+      <form action="/profile.html" method="post">
+        <button type="submit" id="create-profile-button">
+          Create one here!
+        </button>
+      </form>
     </div>
   </div>
 </body>

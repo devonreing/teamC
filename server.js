@@ -23,6 +23,7 @@ con.connect(function (err) {
     console.log("Connected!");
 });
 
+<<<<<<< HEAD
 // Function to read and serve HTML files
 function readAndServe(path, res) {
     fs.readFile(path, function (err, data) {
@@ -32,6 +33,77 @@ function readAndServe(path, res) {
 }
 
 // Routes
+=======
+//*** file system module for accessing files in nodejs
+const fs = require("fs");
+function readAndServe(path, res) {
+    fs.readFile(path,function(err, data) {
+        res.setHeader('Content-Type', 'text/html');
+        res.end(data);
+    })
+}
+
+//******************************************************************************
+//*** this routing table handles all the GET requests from the browser
+//******************************************************************************
+app.get("/", function (req, res) {
+    readAndServe("./login.html",res)
+
+});
+
+app.get("/login", function (req, res) {
+    readAndServe("./login.html",res)
+
+});
+
+app.get("/preferences", function (req, res) {
+    readAndServe("./preferences.html",res)
+
+});
+
+app.get("/profilePage", function (req, res) {
+    readAndServe("./profilePage.html",res)
+
+});
+
+app.get("/profile", function (req, res) {
+    readAndServe("./profile.html",res)
+});
+
+//******************************************************************************
+//*** receive post register data from the client
+//******************************************************************************
+app.post("/profile", function (req, res) {
+
+    var firstName = req.body.firstName,       // extract the strings received from the browser
+        lastName = req.body.lastName,
+        email = req.body.email,
+        age = req.body.age,
+        roommates = req.body.roommates,
+        studentYear = req.body.studentYear,
+        picture = req.body.picture;
+
+    var sql_query = "insert into users values('" + firstName + "','" + lastName + "','" + email + "','" + age + "','" + roommates + "','" + studentYear + "','" + picture + "')";
+
+    con.query(sql_query, function (err, result, fields) { // execute the SQL string
+        if (err)
+            res.send("Illegal Query" + err);                  // SQL error
+
+        else {
+            console.log(sql_query);                                   // send query results to the console
+
+            res.redirect("http://localhost:3000/preferences");   // redirect to the preferences page
+        }
+    });
+});
+
+/*
+//*** the GET string received from the browser will be stored here
+var user_string = "";
+
+
+//*** receive the get request from the client
+>>>>>>> 6135bcf4c3bc2a12eb2afb7ac17a8ff926522c54
 app.get("/", function (req, res) {
     readAndServe("./login.html", res);
 });
@@ -92,6 +164,7 @@ app.post("/profile", function (req, res) {
 });
 
 
+<<<<<<< HEAD
 
 
 
@@ -138,6 +211,12 @@ app.get("/updateProfile", function (req, res) {
     });
 });
 
+=======
+//*** wait indefinitely in a loop
+app.listen(port, function () {
+    console.log("Example app listening on port " + port);
+});*/
+>>>>>>> 6135bcf4c3bc2a12eb2afb7ac17a8ff926522c54
 
 
 
