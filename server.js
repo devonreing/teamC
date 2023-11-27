@@ -4,6 +4,7 @@
 //*** set up an HTTP server off port 3000
 const express = require("express");
 const app = express();
+app.use(express.static('css'));
 const port = 6000;
 
 //*** set up mysql connections
@@ -63,15 +64,15 @@ app.get("/profile", function (req, res) {
 //******************************************************************************
 app.post("/profile", function (req, res) {
 
-    var firstName = req.body.firstName,       // extract the strings received from the browser
-        lastName = req.body.lastName,
-        email = req.body.email,
+    var first_name = req.body.first_name,       // extract the strings received from the browser
+        last_name = req.body.last_name,
+        Email = req.body.Email,
         age = req.body.age,
-        roommates = req.body.roommates,
-        studentYear = req.body.studentYear,
+        roommate_amount = req.body.roommate_amount,
+        student_level = req.body.student_level,
         picture = req.body.picture;
 
-    var sql_query = "insert into users values('" + firstName + "','" + lastName + "','" + email + "','" + age + "','" + roommates + "','" + studentYear + "','" + picture + "')";
+    var sql_query = "insert into users values('" + first_name + "','" + last_name + "','" + Email + "','" + age + "','" + roommate_amount + "','" + student_level + "','" + picture + "')";
 
     con.query(sql_query, function (err, result, fields) { // execute the SQL string
         if (err)
