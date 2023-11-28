@@ -1,88 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" type="text/css" href="profilePage.css" />
-  <link href="https://fonts.googleapis.com/css?family=Anton%7CBaskervville%7CRaleway&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" />
-  <title>Profile Page</title>
-  <script>
-    // Function to replace placeholders with actual data
-    function replacePlaceholders(userData) {
-      document.getElementById("username").innerText = userData.username;
-      document.getElementById("password").innerText = userData.password;
-      document.getElementById("first_name").innerText = userData.first_name;
-      document.getElementById("last_name").innerText = userData.last_name;
-      document.getElementById("age").innerText = userData.age;
-      document.getElementById("Email").innerText = userData.Email;
-      document.getElementById("student_level").innerText = userData.student_level;
-      document.getElementById("roommate_amount").innerText = userData.roommate_amount;
-      document.getElementById("about").innerText = userData.about;
-    }
-
-    // Call the function on page load
-    window.onload = function () {
-      // Extract user data from the server-side rendered script
-      const userData = JSON.parse('<%- JSON.stringify(userData) %>');
-      replacePlaceholders(userData);
-    };
-  </script>
-</head>
-
-<body>
-  <header>
-    <nav class="nav-bar" id="navbar">
-      <a href="login.html"><img src="draft_logo.jpg" width="50px" height="50px" /></a>
-    </nav>
-  </header>
-  <h1 id="top">Your Profile</h1>
-  <div class="center">
-    <div class="profile-image">
-      <a
-        href="https://lh3.googleusercontent.com/drive-viewer/AK7aPaAuwkmCN9QvpEC_IhEtW710UzJ0rMGDf-asN84WnhAlkTVsww-6unfBmH8qdBI2sIIEPsxrpNA_SghcqEqC2khf-h437A=s1600?source=screenshot.guru">
-        <img
-          src="https://lh3.googleusercontent.com/drive-viewer/AK7aPaAuwkmCN9QvpEC_IhEtW710UzJ0rMGDf-asN84WnhAlkTVsww-6unfBmH8qdBI2sIIEPsxrpNA_SghcqEqC2khf-h437A=s1600"
-          alt="image" />
-      </a>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" href="profilePage.css" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Anton%7CBaskervville%7CRaleway&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+    />
+    <title>Profile Page</title>
+  </head>
+  <body>
+    <header>
+      <nav class="nav-bar" id="navbar">
+        <a href="login.html"
+          ><embed src="draft_logo.jpg" width="50px" height="50px"
+        /></a>
+      </nav>
+    </header>
+    <h1 id="top">Your Profile</h1>
+    <div class="center">
+      <div class="profile-image">
+        <a
+          href="https://lh3.googleusercontent.com/drive-viewer/AK7aPaAuwkmCN9QvpEC_IhEtW710UzJ0rMGDf-asN84WnhAlkTVsww-6unfBmH8qdBI2sIIEPsxrpNA_SghcqEqC2khf-h437A=s1600?source=screenshot.guru"
+        >
+          <img
+            src="https://lh3.googleusercontent.com/drive-viewer/AK7aPaAuwkmCN9QvpEC_IhEtW710UzJ0rMGDf-asN84WnhAlkTVsww-6unfBmH8qdBI2sIIEPsxrpNA_SghcqEqC2khf-h437A=s1600"
+            alt="image"
+          />
+        </a>
+      </div>
+      <div class="profile">
+        <h2>Rani Son</h2>
+        <h2>About Me!</h2>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident
+          neque omnis consectetur soluta iste reprehenderit nobis doloribus
+          dolor non laborum laboriosam delectus fugiat deserunt, eum asperiores
+          excepturi velit odit distinctio?
+        </p>
+        <h2>Senior</h2>
+        <h2>Looking for 1 Roommate</h2>
+        <h2>Preferences:</h2>
+        <p>No Smoking</p>
+        <p>No Snoring</p>
+        <div class="icons">
+          <a
+            id="#insta-link"
+            href="https://www.instagram.com/phoenix__rainbow/"
+            target="_blank"
+            rel="noopener"
+          >
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a
+            id="#x-link"
+            href="https://twitter.com/MeatPhoenix"
+            target="_blank"
+            rel="noopener"
+          >
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a
+            id="linked-link"
+            href="https://www.linkedin.com/in/rani-son-bb4610208/"
+            target="_blank"
+            rel="noopener"
+          >
+            <i class="fab fa-linkedin-in"></i>
+          </a>
+        </div>
+      </div>
     </div>
-    <div class="profile">
-      <!-- Use specific IDs to target placeholders -->
-      <section>
-        <h2>Username:</h2>
-        <p id="username"></p>
-      </section>
-      <section>
-        <h2>First Name:</h2>
-        <p id="first_name"></p>
-      </section>
-      <section>
-        <h2>Last Name:</h2>
-        <p id="last_name"></p>
-      </section>
-      <section>
-        <h2>Age:</h2>
-        <p id="age"></p>
-      </section>
-      <section>
-        <h2>Email:</h2>
-        <p id="Email"></p>
-      </section>
-      <section>
-        <h2>Student Level:</h2>
-        <p id="student_level"></p>
-      </section>
-      <section>
-        <h2>Roommate Amount:</h2>
-        <p id="roommate_amount"></p>
-      </section>
-      <section>
-        <h2>About Me:</h2>
-        <p id="about"></p>
-      </section>
-    </div>
-  </div>
-</body>
-
+  </body>
 </html>

@@ -17,15 +17,15 @@ body {
     height: 420px;
     padding: 20px;
     text-align: center;
-    border: 2px solid;
+    border: 2px solid ; 
     border-radius: 100px 100px 100px 100px;
-    margin: 200px 0 auto;
+    margin: 200px 0 auto; 
 }
 
 img {
-    max-width: 40%;
+    max-width: 40%; 
     display: inline-block;
-    vertical-align: middle;
+    vertical-align: middle; 
     margin: -300px 5% 0 auto;
 }
 
@@ -72,3 +72,4 @@ input[type="password"] {
     border: none;
     cursor: pointer;
 }
+

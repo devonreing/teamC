@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Profile Page</title>
+    <link rel="stylesheet" type="text/css" href="profile.css" />
+  </head>
 
+<<<<<<< HEAD
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -49,3 +56,66 @@
 </body>
 
 </html>
+=======
+  <body>
+    <form id="profile" action="preferences.html">
+      <h1>Create Your Profile!</h1>
+      <fieldset>
+        <label>
+          First Name
+          <input type="text" id="fname" placeholder="First Name" required />
+        </label>
+        <label>
+          Last Name
+          <input type="text" id="lname" placeholder="Last Name" required />
+        </label>
+        <label>
+          Email
+          <input
+            type="email"
+            id="email"
+            placeholder="Enter Your Email"
+            required
+          />
+          <label id="number-label"
+          >Age
+          <input
+            type="number"
+            id="number"
+            min="0"
+            max="100"
+            placeholder="0"
+          />
+        </label>
+        <label id="number-roommates"
+          >How many Roommates Are You Looking For?
+          <input
+            type="number"
+            id="roommate"
+            min="0"
+            max="100"
+            placeholder="0"
+          />
+        </label>
+        <label
+          >Which option best describes you?
+          <select id="dropdown">
+            <option value="">Select current role</option>
+            <option value="1">Freshman</option>
+            <option value="2">Sophomore</option>
+            <option value="3">Junior</option>
+            <option value="4">Senior</option>
+            <option value="5">Other</option>
+          </select>
+        </label>
+        <label>
+          Enter a Profile Picture Here
+          <input id="picture" type="file" name="upload" accept="image/*" />
+        </label>
+          <button>Submit</button>
+      </fieldset>
+    </form>
+  </body>
+</html>
+
+>>>>>>> parent of e50562f (Luke test code)
