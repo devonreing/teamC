@@ -96,10 +96,8 @@ app.post("/profile", function (req, res) {
     });
 });
 
-
 //*** the GET string received from the browser will be stored here
 var user_string = "";
-
 
 //*** receive the get request from the client
 app.get("/", function (req, res) {
