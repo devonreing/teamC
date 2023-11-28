@@ -3,7 +3,195 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" type="text/css" href="css/homePage.css" />
+    <style>
+        body, h1, h2, ul, li {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: white;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background-color: orange;
+            padding: 20px;
+            text-align: center;
+            color: blue;
+            font-size: large;
+        }
+
+        .navbar {
+            background-color: blue;
+            text-align: center;
+        }
+
+        .navbar ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: inline-block;
+        }
+
+        .navbar li {
+            display: inline-block;
+        }
+
+        .navbar a {
+            display: inline-block;
+            padding: 14px 16px;
+            color: white;
+            text-decoration: none;
+        }
+
+        .navbar a:hover {
+            background-color: darkblue;
+        }
+
+        /* User Profile Box styles */
+        .profile-container {
+            position: absolute; /* Set the position to absolute */
+            top: 150px; /* Adjust the top distance from the top of the viewport */
+            left: 350px; /* Adjust the left distance from the left of the viewport */
+
+            display: flex;
+            flex-direction: column; /* Stack children vertically */
+            justify-content: space-between; /* Distribute space between children */
+            align-items: center; /* Center children horizontally within the container */
+
+            padding: 20px;
+            margin: 20px; /* Adjust the margin as needed */
+            border: 2px solid #333; /* Add a border to the profile box */
+            height: 500px; /* Adjust the height as needed */
+            max-width: 400px; /* Adjust the maximum width of the profile box */
+        }
+
+        .profile-image {
+            align-self: flex-start; /* Align the image at the top of the container */
+            margin-bottom: 10px; /* Add spacing between image and profile info */
+            margin-left: 65px;
+        }
+
+        .profile-image img {
+            display: block;
+            margin-left: 90px;
+            margin-right: auto;
+            width: 30%;
+            height: 50%;
+            border-radius: 50%;
+            padding-top: 5%;
+        }
+
+        .profile-info {
+            margin-top: 30px; /* Add spacing between image and profile info */
+            text-align: center; /* Align text to the center within the profile info */
+            align-self: center; /* Center the profile info within the container */
+            margin-bottom: 30px; /* Add spacing between image and profile info */
+        }
+
+        .add-info {
+            text-align: center; /* Align text to the center within the additional info */
+            align-self: flex-end; /* Align the additional info at the bottom */
+        }
+
+        .add-info h2,
+        .add-info p {
+            margin-bottom: 20px; /* Add some spacing between elements */
+        }
+
+        /* Matches Box styles */
+        .matches-container {
+            position: absolute; /* Set the position to absolute */
+            top: 125px; /* Adjust the top distance from the top of the viewport */
+            left: 1000px; /* Adjust the left distance from the left of the viewport */
+
+            display: flex;
+            flex-direction: column; /* Stack children vertically */
+            justify-content: space-between; /* Distribute space between children */
+            align-items: center; /* Center children horizontally within the container */
+
+            padding: 20px;
+            margin: 20px; /* Adjust the margin as needed */
+        }
+
+        .matches-content {
+            border: 2px solid #333; /* Add a border to the Matches box */
+            height: 200px; /* Adjust the height as needed */
+            max-width: 500px; /* Adjust the maximum width of the Matches box */
+            /* Add styles for the content inside the Matches box */
+            width: 400px; /* Ensure the content takes the full width */
+            padding: 20px;
+        }
+
+        .match {
+            border-bottom: 1px solid #999; /* Add a border between matches */
+            padding-bottom: 10px; /* Add spacing between matches */
+        }
+
+        /* Style for chat and remove buttons */
+        .chat-button,
+        .remove-button {
+            margin-top: 5px;
+            padding: 5px 10px;
+            background-color: blue;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Add hover effect for buttons */
+        .chat-button:hover,
+        .remove-button:hover {
+            background-color: blue;
+        }
+
+        /* Rec Box styles */
+        .recommend-container {
+            position: absolute; /* Set the position to absolute */
+            top: 450px; /* Adjust the top distance from the top of the viewport */
+            left: 1000px; /* Adjust the left distance from the left of the viewport */
+
+            display: flex;
+            flex-direction: column; /* Stack children vertically */
+            justify-content: space-between; /* Distribute space between children */
+            align-items: center; /* Center children horizontally within the container */
+
+            padding: 20px;
+            margin: 20px; /* Adjust the margin as needed */
+        }
+
+        .recommend-content {
+            border: 2px solid #333; /* Add a border to the Matches box */
+            height: 200px; /* Adjust the height as needed */
+            max-width: 500px; /* Adjust the maximum width of the Matches box */
+            /* Add styles for the content inside the Matches box */
+            width: 400px; /* Ensure the content takes the full width */
+            padding: 20px;
+        }
+
+        .rec-match {
+            border-bottom: 1px solid #999; /* Add a border between matches */
+            padding-bottom: 10px; /* Add spacing between matches */
+        }
+
+        /* Style for chat and remove buttons */
+        .match-button {
+            margin-top: 5px;
+            padding: 5px 10px;
+            background-color: blue;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Add hover effect for buttons */
+        .match-button:hover {
+            background-color: blue;
+        }
+    </style>
     <title>Home Page</title>
 </head>
 <body>
