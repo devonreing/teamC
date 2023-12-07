@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Login Page</title>
+    <title>Register</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -21,7 +21,6 @@
             font-size: 2.5em;
             text-align: center;
             color: #76aaea;
-            /* Match the color from register.html */
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
             margin-bottom: 20px;
         }
@@ -73,15 +72,18 @@
 
 <body>
     <h1>RoommateMatcher.com</h1>
-    <!-- Error Message Placeholder -->
-    <!-- This is where the error message will be injected -->
-    <form action="/login" method="POST">
+    <form action="/register" method="POST">
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required>
         <br>
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required>
         <br>
+        <input type="hidden" name="action" value="register">
+        <button type="submit">Register</button>
+    </form>
+
+    <form action="/register" method="POST">
         <input type="hidden" name="action" value="login">
         <button type="submit">Login</button>
     </form>
