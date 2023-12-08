@@ -118,7 +118,6 @@ app.post("/register", function (req, res) {
     }
 });
 
-
 app.post("/login", function (req, res) {
     const { username, password } = req.body;
 
@@ -147,19 +146,31 @@ app.post("/login", function (req, res) {
                     return;
                 }
 
-                if (aboutMeResult.length > 0) {
-                    // User has filled out aboutMe page, set the session variable to true
-                    req.session.aboutMeCompleted = true;
+                // Check if the user has preferences
+                const checkPreferencesQuery = "SELECT * FROM preferences WHERE username = ?";
+                con.query(checkPreferencesQuery, [username], function (err, preferencesResult) {
+                    if (err) {
+                        console.error(err);
+                        res.status(500).send('Internal Server Error');
+                        return;
+                    }
 
-                    // Redirect to the main page
-                    res.redirect("/main");
-                } else {
-                    // User has not filled out aboutMe page, set the session variable to false
-                    req.session.aboutMeCompleted = false;
+                    // Set session variables based on aboutMe completion and preferences
+                    req.session.aboutMeCompleted = aboutMeResult.length > 0;
+                    req.session.hasPreferences = preferencesResult.length > 0;
 
-                    // Redirect to the aboutMe page
-                    res.redirect("/aboutMe");
-                }
+                    // Redirect based on whether aboutMe is completed and whether preferences exist
+                    if (req.session.aboutMeCompleted && req.session.hasPreferences) {
+                        // Redirect to the main page if aboutMe is completed and preferences exist
+                        res.redirect("/main");
+                    } else if (req.session.aboutMeCompleted) {
+                        // Redirect to the preferences page if aboutMe is completed but no preferences
+                        res.redirect("/preferences");
+                    } else {
+                        // Redirect to the aboutMe page if aboutMe is not completed
+                        res.redirect("/aboutMe");
+                    }
+                });
             });
         } else {
             // Login failed
@@ -174,6 +185,8 @@ app.post("/login", function (req, res) {
         }
     });
 });
+
+
 
 
 
@@ -376,13 +389,14 @@ app.get("/main", function (req, res) {
                             <p>About Me: ${loggedInUserInfo[0].about_text}</p>
                             <form action="/savePreferences" method="post">
                             <label>
-                            <input type="checkbox" name="preference" value="NoSnoring" ${loggedInUserInfo[0].preferences.includes('NoSnoring') ? 'checked' : ''}> No Snoring
+                            <input type="checkbox" name="preference" value="NoSnoring" ${loggedInUserInfo[0].preferences && loggedInUserInfo[0].preferences.includes('NoSnoring') ? 'checked' : ''}> No Snoring
                             </label>
                             <label>
-                            <input type="checkbox" name="preference" value="NightOwl" ${loggedInUserInfo[0].preferences.includes('NightOwl') ? 'checked' : ''}> Night Owl
+                            <input type="checkbox" name="preference" value="NightOwl" ${loggedInUserInfo[0].preferences && loggedInUserInfo[0].preferences.includes('NightOwl') ? 'checked' : ''}> Night Owl
+
                             </label>
                             <label>
-                            <input type="checkbox" name="preference" value="Quiet" ${loggedInUserInfo[0].preferences.includes('Quiet') ? 'checked' : ''}> Quiet Roommate
+                            <input type="checkbox" name="preference" value="Quiet" ${loggedInUserInfo[0].preferences && loggedInUserInfo[0].preferences.includes('Quiet') ? 'checked' : ''}> Quiet Roommate
                             </label>
                             <!-- Add more checkboxes as needed -->
                         
