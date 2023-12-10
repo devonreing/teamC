@@ -221,150 +221,153 @@ app.get("/main", function (req, res) {
                 return;
             }
 
+            const preferences = loggedInUserInfo[0].preferences || ['none'];
+
+
             // Generate HTML with dynamic data and styles
             const html = `
-                <!DOCTYPE html>
-                <html lang="en">
-                
-                <head>
-                    <meta charset="UTF-8">
-                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                    <title>Main Page</title>
-                    <style>
-                        body {
-                            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                            background-color: #f8f8f8;
-                            margin: 0;
-                            padding: 0;
-                            display: flex;
-                            flex-direction: column;
-                            align-items: center;
-                            justify-content: center;
-                            min-height: 100vh;
-                            color: #333;
-                        }
-
-                        h2, h3, p {
-                            margin: 0;
-                        }
-
-                        h2 {
-                            color: #76aaea; /* Change to the color from login.html */
-                            margin-bottom: 10px;
-                        }
-
-                        .main-container {
-                            width: 80%;
-                            max-width: 800px;
-                            margin: 20px auto;
-                            background-color: #fff;
-                            padding: 20px;
-                            border-radius: 8px;
-                            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                            display: flex;
-                            flex-wrap: wrap;
-                            position: relative;
-                        }
-
-                        .user-info {
-                            flex: 1;
-                            margin-right: 10px;
-                            position: sticky;
-                            top: 0;
-                        }
-                
-                        .other-users {
-                            flex: 1;
-                            overflow-y: auto;
-                            max-height: 80vh; /* Set a maximum height for scrolling */
-                        }
-
-                        .search-bar {
-                            position: absolute;
-                            top: 10px;
-                            right: 10px;
-                            text-align: right;
-                        }
-
-                        .search-bar form {
-                            display: inline-block;
-                        }
-
-                        .search-bar label,
-                        .search-bar input,
-                        .search-bar button {
-                            margin: 5px;
-                        }
-
-                        .user-info, .other-users {
-                            width: 100%;
-                            box-sizing: border-box;
-                            padding: 15px;
-                            border: 1px solid #ddd;
-                            border-radius: 8px;
-                            background-color: #f9f9f9;
-                            margin-bottom: 20px;
-                            position: relative;
-                        }
-
-                        .user-info {
-                            flex: 1;
-                            margin-right: 10px;
-                        }
-
-                        .other-users {
-                            flex: 1;
-                            margin-left: 10px;
-                        }
-
-                        .other-user {
-                            margin-bottom: 20px;
-                            padding: 15px;
-                            border: 1px solid #ddd;
-                            border-radius: 8px;
-                            background-color: #f9f9f9;
-                            position: relative;
-                        }
-
-                        .view-profile-button {
-                            position: absolute;
-                            top: 10px;
-                            right: 10px;
-                            background-color: #76aaea;
-                            color: white;
-                            padding: 8px 16px;
-                            border: none;
-                            border-radius: 4px;
-                            cursor: pointer;
-                            font-size: 1em;
-                        }
-
-                        .view-profile-button:hover {
-                            background-color: #5E88BB;
-                        }
-
-                        .search-bar {
-                            position: absolute;
-                            top: 10px;
-                            right: 10px;
-                            text-align: right;
-                            z-index: 1; /* Ensure the search bar is above other elements */
-                        }
-                        
-                        .search-bar form {
-                            display: inline-block;
-                            background-color: #fff; /* Set a background color to make it stand out */
-                            padding: 10px;
-                            border-radius: 4px;
-                            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                        }
-                        
-                        .search-bar label,
-                        .search-bar input,
-                        .search-bar button {
-                            margin: 5px;
-                        }
-                    </style>
+            <!DOCTYPE html>
+            <html lang="en">
+            
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Main Page</title>
+                <style>
+                    body {
+                        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                        background-color: #f8f8f8;
+                        margin: 0;
+                        padding: 0;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                        min-height: 100vh;
+                        color: #333;
+                    }
+            
+                    h2,
+                    h3,
+                    p {
+                        margin: 0;
+                    }
+            
+                    h2 {
+                        color: #76aaea; /* Change to the color from login.html */
+                        margin-bottom: 10px;
+                    }
+            
+                    .main-container {
+                        width: 80%;
+                        max-width: 800px;
+                        margin: 20px auto;
+                        background-color: #fff;
+                        padding: 20px;
+                        border-radius: 8px;
+                        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                        display: flex;
+                        flex-wrap: wrap;
+                        position: relative;
+                    }
+            
+                    .user-info {
+                        flex: 1;
+                        margin-right: 10px;
+                        position: sticky;
+                        top: 0;
+                    }
+            
+                    .other-users {
+                        flex: 1;
+                        overflow-y: auto;
+                        max-height: 80vh; /* Set a maximum height for scrolling */
+                    }
+            
+                    .search-bar {
+                        position: absolute;
+                        top: 10px;
+                        right: 10px;
+                        text-align: right;
+                        z-index: 1; /* Ensure the search bar is above other elements */
+                    }
+            
+                    .search-bar form {
+                        display: inline-block;
+                        background-color: #fff; /* Set a background color to make it stand out */
+                        padding: 10px;
+                        border-radius: 4px;
+                        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                    }
+            
+                    .search-bar label,
+                    .search-bar input,
+                    .search-bar button {
+                        margin: 5px;
+                    }
+            
+                    .preferences {
+                        margin-top: 20px;
+                        max-width: 400px;
+                    }
+            
+                    .preferences label {
+                        display: block;
+                        margin-bottom: 5px;
+                    }
+            
+                    .user-info,
+                    .other-users {
+                        width: 100%;
+                        box-sizing: border-box;
+                        padding: 15px;
+                        border: 1px solid #ddd;
+                        border-radius: 8px;
+                        background-color: #f9f9f9;
+                        margin-bottom: 20px;
+                        position: relative;
+                    }
+            
+                    .user-info {
+                        margin-bottom: 10px;
+                    }
+            
+                    .other-user {
+                        margin-bottom: 20px;
+                        padding: 15px;
+                        border: 1px solid #ddd;
+                        border-radius: 8px;
+                        background-color: #f9f9f9;
+                        position: relative;
+                    }
+            
+                    .view-profile-button {
+                        position: absolute;
+                        top: 10px;
+                        right: 10px;
+                        background-color: #76aaea;
+                        color: white;
+                        padding: 8px 16px;
+                        border: none;
+                        border-radius: 4px;
+                        cursor: pointer;
+                        font-size: 1em;
+                    }
+            
+                    .view-profile-button:hover {
+                        background-color: #5E88BB;
+                    }
+            
+                    .matching-preferences-button {
+                        margin-top: 10px;
+                    }
+                    .preferences-container label {
+                        display: block;
+                        margin-bottom: 5px;
+                    }
+                    
+                </style>
+                 
                 </head>
             
                 <body>
@@ -387,23 +390,46 @@ app.get("/main", function (req, res) {
                             <p>Roommate Amount: ${loggedInUserInfo[0].roommate_amount}</p>
                             <p>Student Level: ${loggedInUserInfo[0].student_level}</p>
                             <p>About Me: ${loggedInUserInfo[0].about_text}</p>
-                            <form action="/savePreferences" method="post">
+                            <form action="/savePreferences" method="post" onsubmit="return validatePreferences()">
+                            <div class="preferences-container">
+
                             <label>
                             <input type="checkbox" name="preference" value="NoSnoring" ${loggedInUserInfo[0].preferences && loggedInUserInfo[0].preferences.includes('NoSnoring') ? 'checked' : ''}> No Snoring
                             </label>
                             <label>
                             <input type="checkbox" name="preference" value="NightOwl" ${loggedInUserInfo[0].preferences && loggedInUserInfo[0].preferences.includes('NightOwl') ? 'checked' : ''}> Night Owl
-
                             </label>
                             <label>
                             <input type="checkbox" name="preference" value="Quiet" ${loggedInUserInfo[0].preferences && loggedInUserInfo[0].preferences.includes('Quiet') ? 'checked' : ''}> Quiet Roommate
                             </label>
+                            <label>
+                    <input type="checkbox" name="preference" value="PetFriendly" ${loggedInUserInfo[0].preferences && loggedInUserInfo[0].preferences.includes('PetFriendly') ? 'checked' : ''}> Pet Friendly
+                </label>
+                <label>
+                    <input type="checkbox" name="preference" value="NonSmoker" ${loggedInUserInfo[0].preferences && loggedInUserInfo[0].preferences.includes('NonSmoker') ? 'checked' : ''}> Non-Smoker
+                </label>
+                <label>
+                    <input type="checkbox" name="preference" value="EarlyRiser" ${loggedInUserInfo[0].preferences && loggedInUserInfo[0].preferences.includes('EarlyRiser') ? 'checked' : ''}> Early Riser
+                </label>
+                <label>
+                    <input type="checkbox" name="preference" value="StudyBuddy" ${loggedInUserInfo[0].preferences && loggedInUserInfo[0].preferences.includes('StudyBuddy') ? 'checked' : ''}> Study Buddy
+                </label>
+                <label>
+                    <input type="checkbox" name="preference" value="Vegetarian" ${loggedInUserInfo[0].preferences && loggedInUserInfo[0].preferences.includes('Vegetarian') ? 'checked' : ''}> Vegetarian
+                </label>
+                <label>
+                    <input type="checkbox" name="preference" value="FitnessEnthusiast" ${loggedInUserInfo[0].preferences && loggedInUserInfo[0].preferences.includes('FitnessEnthusiast') ? 'checked' : ''}> Fitness Enthusiast
+                </label>
+               
                             <!-- Add more checkboxes as needed -->
-                        
+                            </div>
+ 
                             <button type="submit">Save Preferences</button>
+                            <div id="error-message"></div>
                         </form>
+                        <button class="matching-preferences-button" onclick="showMatchingPreferences()">Matching Preferences</button>
+
                         </div>
-                
                         <!-- Right half: Display information about other users -->
                         <div class="other-users">
                             <h3>Other Users:</h3>
@@ -423,24 +449,53 @@ app.get("/main", function (req, res) {
                             `).join('')}
                         </div>
                     </div>
-
                     <script>
-                        // Function to redirect to the view profile page
-                        function viewProfile(username) {
-                            window.location.href = "/profile/" + username;
+                    // Function to redirect to the view profile page
+                    function viewProfile(username) {
+                        window.location.href = "/profile/" + username;
+                    }
+                
+                 
+                
+                    // Function to validate preferences
+                    function validatePreferences() {
+                        document.getElementById('error-message').innerHTML = '';
+                        return true; // Allow form submission
+                    }
+                
+                    // Function to redirect to the matchingPreferences page
+                    function showMatchingPreferences() {
+                        // Check if "None" checkbox is checked
+                        const noneCheckbox = document.querySelector('input[name="preference"][value="None"]');
+                        if (noneCheckbox.checked) {
+                            // Redirect to a page that shows all users
+                            window.location.href = "/allUsers";
+                        } else {
+                            // Redirect to the matchingPreferences page
+                            window.location.href = "/matchingPreferences";
                         }
-                    </script>
+                    }
+                    
+
+    // Function to redirect to the matchingPreferences page
+    function showMatchingPreferences() {
+        window.location.href = "/matchingPreferences";
+    }
+
+
+                </script>
+                
+                  
                 </body>
                 
                 </html>
+                
             `;
-
             // Send the HTML as the response
             res.send(html);
         });
     });
 });
-
 
 app.get("/search", function (req, res) {
     const searchUsername = req.query.username;
@@ -463,7 +518,6 @@ app.get("/search", function (req, res) {
         }
     });
 });
-
 
 app.get("/profile/:username", function (req, res) {
     const profileUsername = req.params.username;
@@ -586,11 +640,7 @@ app.get("/profile/:username", function (req, res) {
         res.send(html);
     });
 });
-
 // ...
-
-
-
 
 app.post("/aboutMe", function (req, res) {
     const { first_name, last_name, age, roommate_amount, student_level, about_text } = req.body;
@@ -603,6 +653,9 @@ app.post("/aboutMe", function (req, res) {
     }
 
     const username = req.session.username;
+
+    // Log the received data for debugging
+    console.log("Received aboutMe data:", req.body);
 
     // Update the about_me table with the user's information
     const updateAboutMeQuery = `
@@ -622,26 +675,22 @@ app.post("/aboutMe", function (req, res) {
         [username, first_name, last_name, age, roommate_amount, student_level, about_text],
         function (err, result) {
             if (err) {
-                console.error(err);
+                console.error("Error updating about_me:", err);
                 res.status(500).send('Internal Server Error');
                 return;
             }
+
+            // Log the result of the query for debugging
+            console.log("Result of updating about_me:", result);
 
             // Set the aboutMeCompleted session variable to true
             req.session.aboutMeCompleted = true;
 
             // Redirect to the main page after successful update
-            // res.redirect("/main");
+            res.redirect("/main");
         }
     );
 });
-
-
-
-
-
-// ...
-
 
 
 function readAndServe(path, res, errorMessage = '') {
@@ -667,7 +716,6 @@ app.get("/matched", function (req, res) {
 });
 
 
-
 // Handle Match button click
 app.post("/match", function (req, res) {
     // Redirect to the matchedUser page
@@ -675,56 +723,92 @@ app.post("/match", function (req, res) {
 });
 
 app.post("/savePreferences", function (req, res) {
-    const newPreferences = Array.isArray(req.body.preference) ? req.body.preference : [req.body.preference];
     const username = req.session.username;
 
-    // Fetch existing preferences for the user
-    const fetchPreferencesQuery = "SELECT preference_name FROM preferences WHERE username = ?";
-    con.query(fetchPreferencesQuery, [username], function (err, existingPreferences) {
+    // Check if preferences are present in the request body
+    const newPreferences = Array.isArray(req.body.preference) ? req.body.preference : [req.body.preference];
+
+    // If no preferences are selected, insert the hard-coded preferences
+    const preferencesToInsert = newPreferences.length > 0 ? newPreferences : ['NoSnoring', 'NightOwl', 'Quiet', 'PetFriendly', 'NonSmoker', 'EarlyRiser', 'StudyBuddy', 'Vegetarian', 'FitnessEnthusiast'];
+
+    // Delete existing preferences for the user
+    const deletePreferencesQuery = "DELETE FROM preferences WHERE username = ?";
+    con.query(deletePreferencesQuery, [username], function (err, deleteResult) {
         if (err) {
             console.error(err);
             res.status(500).send('Internal Server Error');
             return;
         }
 
-        // Extract the existing preferences from the result
-        const currentPreferences = existingPreferences.map(pref => pref.preference_name);
-
-        // Identify preferences to be deleted (in existing but not in new)
-        const preferencesToDelete = currentPreferences.filter(pref => !newPreferences.includes(pref));
-
-        // Identify preferences to be inserted (in new but not in existing)
-        const preferencesToInsert = newPreferences.filter(pref => !currentPreferences.includes(pref));
-
-        // Delete preferences that are no longer selected
-        if (preferencesToDelete.length > 0) {
-            const deletePreferencesQuery = "DELETE FROM preferences WHERE username = ? AND preference_name IN (?)";
-            con.query(deletePreferencesQuery, [username, preferencesToDelete], function (err, deleteResult) {
-                if (err) {
-                    console.error(err);
-                    res.status(500).send('Internal Server Error');
-                    return;
-                }
-            });
-        }
-
         // Insert new preferences
-        if (preferencesToInsert.length > 0) {
+        if (newPreferences.length > 0) {
             const insertPreferencesQuery = "INSERT INTO preferences (username, preference_name) VALUES ?";
-            const preferenceValues = preferencesToInsert.map(preference => [username, preference]);
+            const preferenceValues = newPreferences.map(preference => [username, preference]);
             con.query(insertPreferencesQuery, [preferenceValues], function (err, insertResult) {
                 if (err) {
                     console.error(err);
                     res.status(500).send('Internal Server Error');
                     return;
                 }
-            });
-        }
 
-        // Redirect to the main page after successful update
-        res.redirect("/main");
+                // Redirect to the main page after successful update
+                res.redirect("/main");
+            });
+        } else {
+            // No new preferences to insert, directly redirect to the main page
+            res.redirect("/main");
+        }
     });
 });
 
+app.post("/savePreferences", function (req, res) {
+    const username = req.session.username;
 
+    // Check if preferences are present in the request body
+    const newPreferences = Array.isArray(req.body.preference) ? req.body.preference : [req.body.preference];
 
+    // If no preferences are selected, insert the hard-coded preferences
+    const preferencesToInsert = newPreferences.length > 0 ? newPreferences : ['NoSnoring', 'NightOwl', 'Quiet', 'PetFriendly', 'NonSmoker', 'EarlyRiser', 'StudyBuddy', 'Vegetarian', 'FitnessEnthusiast'];
+
+    // Delete existing preferences for the user
+    const deletePreferencesQuery = "DELETE FROM preferences WHERE username = ?";
+    con.query(deletePreferencesQuery, [username], function (err, deleteResult) {
+        if (err) {
+            console.error(err);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
+
+        // Insert new preferences
+        if (preferencesToInsert.length > 0) {
+            const insertPreferencesQuery = "INSERT INTO preferences (username, preference_name) VALUES ?";
+            const preferenceValues = preferencesToInsert.map(preference => [username, preference]);
+
+            con.query(insertPreferencesQuery, [preferenceValues], function (err, insertResult) {
+                if (err) {
+                    console.error(err);
+                    res.status(500).send('Internal Server Error');
+                    return;
+                }
+
+                // Redirect to the main page after a successful update
+                res.redirect("/main");
+            });
+        } else {
+            // If no preferences are selected, provide a default value
+            const defaultPreference = 'NoPreference';  // Change this to your desired default value
+
+            const insertDefaultPreferenceQuery = "INSERT INTO preferences (username, preference_name) VALUES (?, ?)";
+            con.query(insertDefaultPreferenceQuery, [username, defaultPreference], function (err, insertResult) {
+                if (err) {
+                    console.error(err);
+                    res.status(500).send('Internal Server Error');
+                    return;
+                }
+
+                // Redirect to the main page after a successful update
+                res.redirect("/main");
+            });
+        }
+    });
+});
