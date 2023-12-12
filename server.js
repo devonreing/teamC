@@ -497,6 +497,176 @@ app.get("/main", function (req, res) {
     });
 });
 
+// Display users with matching preferences
+app.get("/matchingPreferences", function (req, res) {
+    // Check if the user is logged in
+    if (!req.session.username) {
+        // Redirect to the login page if not logged in
+        res.redirect("/login");
+        return;
+    }
+
+    const loggedInUsername = req.session.username;
+
+    // Fetch the preferences of the logged-in user
+    const getUserPreferencesQuery = "SELECT preference_name FROM preferences WHERE username = ?";
+    con.query(getUserPreferencesQuery, [loggedInUsername], function (err, userPreferences) {
+        if (err) {
+            console.error(err);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
+
+        const preferences = userPreferences.map(pref => pref.preference_name);
+
+        // Fetch other users with similar preferences
+        const getMatchingUsersQuery = `
+            SELECT DISTINCT a.username, a.first_name, a.last_name, a.age, a.roommate_amount, a.student_level, a.about_text
+            FROM about_me a
+            JOIN preferences p ON a.username = p.username
+            WHERE p.preference_name IN (?)
+            AND a.username != ?
+        `;
+
+        con.query(getMatchingUsersQuery, [preferences, loggedInUsername], function (err, matchingUsers) {
+            if (err) {
+                console.error(err);
+                res.status(500).send('Internal Server Error');
+                return;
+            }
+
+            // Generate HTML dynamically based on database results
+            const html = `
+                <!DOCTYPE html>
+                <html lang="en">
+
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Matching Preferences</title>
+                    <style>
+                    body {
+                        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                        background-color: #f8f8f8;
+                        margin: 0;
+                        padding: 0;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                        min-height: 100vh;
+                        color: #333;
+                    }
+            
+                    h2,
+                    h3,
+                    p {
+                        margin: 0;
+                    }
+            
+                    h2 {
+                        color: #76aaea; /* Change to the color from login.html */
+                        margin-bottom: 10px;
+                    }
+            
+                    .main-container {
+                        width: 80%;
+                        max-width: 800px;
+                        margin: 20px auto;
+                        background-color: #fff;
+                        padding: 20px;
+                        border-radius: 8px;
+                        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                        display: flex;
+                        flex-wrap: wrap;
+                        position: relative;
+                    }
+            
+                    .user-info {
+                        flex: 1;
+                        margin-right: 10px;
+                        position: sticky;
+                        top: 0;
+                    }
+            
+                    .other-users {
+                        flex: 1;
+                        overflow-y: auto;
+                        max-height: 80vh; /* Set a maximum height for scrolling */
+                    }
+            
+                    .other-user {
+                        margin-bottom: 20px;
+                        padding: 15px;
+                        border: 1px solid #ddd;
+                        border-radius: 8px;
+                        background-color: #f9f9f9;
+                        position: relative;
+                    }
+            
+                    .view-profile-button {
+                        position: absolute;
+                        top: 10px;
+                        right: 10px;
+                        background-color: #76aaea;
+                        color: white;
+                        padding: 8px 16px;
+                        border: none;
+                        border-radius: 4px;
+                        cursor: pointer;
+                        font-size: 1em;
+                    }
+            
+                    .view-profile-button:hover {
+                        background-color: #5E88BB;
+                    }
+                    </style>
+                </head>
+
+                <body>
+                    <div class="main-container">
+                        <div class="user-info">
+                            <h2>Your Matching Preferences</h2>
+                            ${preferences.map(pref => `<p>${pref}</p>`).join('')}
+                        </div>
+
+                        <div class="other-users">
+                            <h3>Users with Matching Preferences:</h3>
+                            ${matchingUsers.map(user => `
+                                <div class="other-user">
+                                    <h2>${user.username}</h2>
+                                    <p>First Name: ${user.first_name}</p>
+                                    <p>Last Name: ${user.last_name}</p>
+                                    <p>Age: ${user.age}</p>
+                                    <!-- Add more user information as needed -->
+                                    <button class="view-profile-button" onclick="viewProfile('${user.username}')">View Profile</button>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <script>
+                        function viewProfile(username) {
+                            window.location.href = "/profile/" + username;
+                        }
+                    </script>
+                </body>
+
+                </html>
+            `;
+
+            // Send the HTML as the response
+            res.send(html);
+        });
+    });
+});
+
+
+
+
+
+
+
 app.get("/search", function (req, res) {
     const searchUsername = req.query.username;
 
