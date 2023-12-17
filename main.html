@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Page</title>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f8f8;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        h1 {
+            color: #4caf50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .main-container {
+            width: 80%;
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .user-info {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+
+        .user-info h2 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .user-info p {
+            color: #555;
+            margin: 0;
+        }
+
+        .other-users {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+
+        .other-users h3 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .other-user {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+
+        .other-user h2 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .other-user p {
+            color: #555;
+            margin: 0;
+        }
+
+        .match-button {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            background-color: #45a049;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        .match-button:hover {
+            background-color: #4caf50;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-container">
+        <!-- Display information about the logged-in user -->
+        <div class="user-info">
+            <h2>Welcome, John Doe!</h2>
+            <p>About Me: Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        </div>
+
+        <!-- Display information about other users -->
+        <div class="other-users">
+            <h3>Other Users:</h3>
+            <!-- Add other-user entries as needed -->
+        </div>
+    </div>
+
+    <div class="search-bar">
+        <form action="/search" method="GET">
+            <label for="searchInput">Search User:</label>
+            <input type="text" id="searchInput" name="username" required>
+            <button type="submit">Search</button>
+        </form>
+    </div>
+</body>
+
+</html>

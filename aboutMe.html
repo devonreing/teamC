@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Login Page</title>
+    <title>About Me</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -21,7 +21,6 @@
             font-size: 2.5em;
             text-align: center;
             color: #76aaea;
-            /* Match the color from register.html */
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
             margin-bottom: 20px;
         }
@@ -32,7 +31,7 @@
             padding: 20px;
             border-radius: 15px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            width: 400px;
+            width: 500px;
             max-width: 80%;
             text-align: center;
             margin: 50px 0;
@@ -45,7 +44,9 @@
             font-weight: bold;
         }
 
-        input {
+        input,
+        select,
+        textarea {
             width: 100%;
             padding: 10px;
             margin-bottom: 15px;
@@ -72,18 +73,33 @@
 </head>
 
 <body>
-    <h1>RoommateMatcher.com</h1>
-    <!-- Error Message Placeholder -->
-    <!-- This is where the error message will be injected -->
-    <form action="/login" method="POST">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
-        <br>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-        <br>
-        <input type="hidden" name="action" value="login">
-        <button type="submit">Login</button>
+    <h1>About Me Form</h1>
+    <form action="/aboutMe" method="POST">
+        <label for="first_name">First Name:</label>
+        <input type="text" id="first_name" name="first_name" required>
+
+        <label for="last_name">Last Name:</label>
+        <input type="text" id="last_name" name="last_name" required>
+
+        <label for="age">Age:</label>
+        <input type="number" id="age" name="age" required>
+
+        <label for="roommate_amount">Roommate Amount (Limit 10):</label>
+        <input type="number" id="roommate_amount" name="roommate_amount" min="1" max="10" required>
+
+        <label for="student_level">Student Level:</label>
+        <select id="student_level" name="student_level" required>
+            <option value="freshman">Freshman</option>
+            <option value="sophomore">Sophomore</option>
+            <option value="junior">Junior</option>
+            <option value="senior">Senior</option>
+            <option value="other">Other</option>
+        </select>
+
+        <label for="about_text">About:</label>
+        <textarea id="about_text" name="about_text" rows="4" required></textarea>
+
+        <button type="submit">Submit</button>
     </form>
 </body>
 
