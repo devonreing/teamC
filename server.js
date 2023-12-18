@@ -7,6 +7,13 @@ const fs = require("fs");
 
 const session = require('express-session');
 
+// socket io connection
+const http = require('http');
+const socketIO = require('socket.io');
+const server = http.createServer(app);
+const io = socketIO(server);
+
+
 app.use(session({
     secret: 'your-secret-key',
     resave: true,
@@ -794,12 +801,17 @@ app.get("/profile/:username", function (req, res) {
                     </div>
                     <!-- Add the Match button here -->
                     <button class="match-button" onclick="redirectToMatched('${profileInfo[0].username}')">Match</button>
+                    <button class="match-button" onclick="redirectToChat('${profileInfo[0].username}')">Chat</button>
                 </body>
                 
                 <script>
                     // Function to redirect to the matched.html page with the matched username
                     function redirectToMatched(username) {
                         window.location.href = "/matched?username=" + encodeURIComponent(username);
+                    }
+                    // Function to redirect to the chat.html page with the matched username
+                    function redirectToChat(username) {
+                        window.location.href = "/chat?username=" + encodeURIComponent(username);
                     }
                 </script>
     
@@ -890,6 +902,254 @@ app.get("/matched", function (req, res) {
 app.post("/match", function (req, res) {
     // Redirect to the matchedUser page
     res.redirect("/matched");
+});
+
+// Handle Chat button click
+app.post("/chat", function (req, res) {
+    const users = new Map();
+    // server side socket code
+    // Socket.io connection event
+        io.on('connection', (socket) => {
+            console.log('A user connected');
+            let currentRoom = '';
+            let username = '';
+
+            // Listen for login event and store the username
+            socket.on('login', (user) => {
+                // Check if the username is already taken
+                if (users.has(user)) {
+                    socket.emit('loginError', 'Username is already taken. Please choose another one.');
+                } else {
+                    username = user;
+                    // Store the username and socket ID in the users map
+                    users.set(username, socket.id);
+                    console.log(`${username} logged in`);
+
+                    // Notify all users about the new user count
+                    io.emit('userCount', users.size);
+                }
+            });
+
+            // Listen for chat messages
+            socket.on('chatMessage', (message) => {
+                // Broadcast the message to the appropriate room or recipient
+                if (currentRoom && currentRoom !== username) {
+                    // Chat room message
+                    io.to(currentRoom).emit('chatMessage', `${username}: ${message}`);
+                } else if (!currentRoom && recipient) {
+                    // Private message
+                    const recipientSocketId = users.get(recipient);
+                    if (recipientSocketId) {
+                        io.to(recipientSocketId).emit('chatMessage', `(Private) ${username}: ${message}`);
+                    }
+                }
+            });
+
+            // Listen for joining a chat room
+            socket.on('joinRoom', (roomName) => {
+                // Leave the current room (if any) before joining a new one
+                if (currentRoom) {
+                    socket.leave(currentRoom);
+                }
+
+                socket.join(roomName);
+                currentRoom = roomName;
+                console.log(`${username} joined room: ${roomName}`);
+            });
+
+            // Listen for starting a private chat
+            socket.on('privateChat', (recipientInput) => {
+                recipient = recipientInput.trim();
+                if (users.has(recipient)) {
+                    // Start a private chat by leaving the current room (if any)
+                    // and notifying the recipient to do the same.
+                    //if (currentRoom) {
+                    //  socket.leave(currentRoom);
+                    //}
+
+                    const recipientSocketId = users.get(recipient);
+                    if (recipientSocketId) {
+                        io.to(recipientSocketId).emit('startPrivateChat', username);
+                        currentRoom = ''; // No specific room for private chat
+                        console.log(`${username} started a private chat with ${recipient}`);
+                    }
+                } else {
+                    socket.emit('privateChatError', `User "${recipient}" not found.`);
+                }
+            });
+
+            // Socket.io disconnect event
+            socket.on('disconnect', () => {
+                console.log('A user disconnected');
+
+                // Remove the user from the users map
+                users.delete(username);
+                console.log(`${username} logged out`);
+
+                // Notify all users about the updated user count
+                io.emit('userCount', users.size);
+            });
+        });
+
+
+    const matchedUsername= req.query.username;
+
+    const html =   `<!DOCTYPE html>
+<html>
+<head>
+    <title>Real-time Chat Application</title>
+    <style type="text/css">
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        input {
+            padding: 8px;
+            font-size: 16px;
+            margin: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 8px 16px;
+            font-size: 16px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .room-selection {
+            display: flex;
+            justify-content: center;
+        }
+
+        .room-header {
+            margin-top: 0;
+        }
+
+        .messages {
+            list-style: none;
+            padding: 0;
+            margin: 16px 0;
+        }
+
+        .messages li {
+            margin: 8px;
+            padding: 8px;
+            border-radius: 4px;
+            background-color: #f2f2f2;
+        }
+
+        .typing-status {
+            margin-top: 0;
+            font-style: italic;
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+<h1>Chat to Potential Roommates</h1>
+<div>
+    <!--<div id="login">
+        <input id="usernameInput" autocomplete="off" placeholder="Enter your username" />
+        <button onclick="login()">Login</button>
+    </div>-->
+    <div id="chat" >
+        <div id="roomSelection" style="display:block;">
+            <button onclick="startPrivateChat()">Start Private Chat</button>
+        </div>
+        <div id="chatRoom">
+            <h2>Chat Room: <span id="currentRoom"></span></h2>
+            <ul id="messages"></ul>
+            <input id="messageInput" autocomplete="off" placeholder="Type your message..." />
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    const {match} = require("assert"); 
+const socket = io();
+    let username = '';
+    let currentRoom = '';
+
+    function login() {
+        //const usernameInput = document.getElementById('usernameInput');
+        //const username = usernameInput.value.trim();
+        username = req.session.username;
+        if (username) {
+            socket.emit('login', username);
+        }
+    }
+
+    function joinChatRoom() {
+        const roomNameInput = document.getElementById('roomNameInput');
+        const roomName = roomNameInput.value.trim();
+        if (roomName) {
+            currentRoom = roomName;
+            document.getElementById('roomSelection').style.display = 'none';
+            document.getElementById('chatRoom').style.display = 'block';
+            document.getElementById('currentRoom').textContent = roomName;
+            document.getElementById('messageInput').focus();
+        }
+    }
+
+    function startPrivateChat() {
+        //const recipientInput = prompt('Enter the username of the person you want to chat with:');
+        if (matchedUsername) {
+            currentRoom = ''; // Private chat, so no specific room is needed
+            document.getElementById('roomSelection').style.display = 'none';
+            document.getElementById('chatRoom').style.display = 'block';
+            document.getElementById('currentRoom').textContent = \`Private Chat with ${matchedUsername}\`;
+            document.getElementById('messageInput').focus();
+            socket.emit('privateChat', matchedUsername));
+        }
+    }
+
+    function sendMessage() {
+        const messageInput = document.getElementById('messageInput');
+        const message = messageInput.value.trim();
+        if (message) {
+            socket.emit('chatMessage', message);
+            messageInput.value = '';
+        }
+    }
+
+    socket.on('chatMessage', (message) => {
+        const messages = document.getElementById('messages');
+        const li = document.createElement('li');
+        li.textContent = message;
+        messages.appendChild(li);
+    });
+</script>
+</body>
+</html>
+`
+    res.send(html);
 });
 
 app.post("/savePreferences", function (req, res) {

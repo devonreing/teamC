@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Real-time Chat Application</title>
+    <style type="text/css">
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        input {
+            padding: 8px;
+            font-size: 16px;
+            margin: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 8px 16px;
+            font-size: 16px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .room-selection {
+            display: flex;
+            justify-content: center;
+        }
+
+        .room-header {
+            margin-top: 0;
+        }
+
+        .messages {
+            list-style: none;
+            padding: 0;
+            margin: 16px 0;
+        }
+
+        .messages li {
+            margin: 8px;
+            padding: 8px;
+            border-radius: 4px;
+            background-color: #f2f2f2;
+        }
+
+        .typing-status {
+            margin-top: 0;
+            font-style: italic;
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+<h1>Chat to Potential Roommates</h1>
+<div>
+    <div id="login">
+        <input id="usernameInput" autocomplete="off" placeholder="Enter your username" />
+        <button onclick="login()">Login</button>
+    </div>
+    <div id="chat" >
+        <div id="roomSelection" style="display:block;">
+            <button onclick="startPrivateChat()">Start Private Chat</button>
+        </div>
+        <div id="chatRoom">
+            <h2>Chat Room: <span id="currentRoom"></span></h2>
+            <ul id="messages"></ul>
+            <input id="messageInput" autocomplete="off" placeholder="Type your message..." />
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    const socket = io();
+    let username = '';
+    let currentRoom = '';
+
+    function login() {
+        const usernameInput = document.getElementById('usernameInput');
+        const username = usernameInput.value.trim();
+        if (username) {
+            socket.emit('login', username);
+        }
+    }
+
+    function joinChatRoom() {
+        const roomNameInput = document.getElementById('roomNameInput');
+        const roomName = roomNameInput.value.trim();
+        if (roomName) {
+            currentRoom = roomName;
+            document.getElementById('roomSelection').style.display = 'none';
+            document.getElementById('chatRoom').style.display = 'block';
+            document.getElementById('currentRoom').textContent = roomName;
+            document.getElementById('messageInput').focus();
+        }
+    }
+
+    function startPrivateChat() {
+        const recipientInput = prompt('Enter the username of the person you want to chat with:');
+        if (recipientInput) {
+            currentRoom = ''; // Private chat, so no specific room is needed
+            document.getElementById('roomSelection').style.display = 'none';
+            document.getElementById('chatRoom').style.display = 'block';
+            document.getElementById('currentRoom').textContent = `Private Chat with ${recipientInput}`;
+            document.getElementById('messageInput').focus();
+            socket.emit('privateChat', recipientInput);
+        }
+    }
+
+    function sendMessage() {
+        const messageInput = document.getElementById('messageInput');
+        const message = messageInput.value.trim();
+        if (message) {
+            socket.emit('chatMessage', message);
+            messageInput.value = '';
+        }
+    }
+
+    socket.on('chatMessage', (message) => {
+        const messages = document.getElementById('messages');
+        const li = document.createElement('li');
+        li.textContent = message;
+        messages.appendChild(li);
+    });
+</script>
+</body>
+</html>
